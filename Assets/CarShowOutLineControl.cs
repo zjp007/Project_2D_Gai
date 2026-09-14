@@ -17,6 +17,7 @@ public class CarShowOutLineControl : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Material _material;
     private Tween _tween;
+    private Sequence sequence;
     
     void Start()
     {
@@ -37,14 +38,17 @@ public class CarShowOutLineControl : MonoBehaviour
         {
             realStay =  true;
             
-            Sequence.Create()
-                .ChainDelay(stayCheckTime)
-                .ChainCallback(target:this, target =>
-                {
-                    if(!realStay) return;
-                    if(target._tween.isAlive) target._tween.Stop();
-                    target._tween = Tween.Custom(0, 1, target.duration, onValueChange: x => {target._material.SetFloat("_OutlineAlpha", x);});
-                });
+            if(_tween.isAlive) _tween.Stop();
+            _tween = Tween.Custom(0, 1, duration, onValueChange: x => {_material.SetFloat("_OutlineAlpha", x);});
+            
+            // Sequence.Create()
+            //     .ChainDelay(stayCheckTime)
+            //     .ChainCallback(target:this, target =>
+            //     {
+            //         if(!realStay) return;
+            //         if(target._tween.isAlive) target._tween.Stop();
+            //         target._tween = Tween.Custom(0, 1, target.duration, onValueChange: x => {target._material.SetFloat("_OutlineAlpha", x);});
+            //     });
         }
     }
 
@@ -54,8 +58,8 @@ public class CarShowOutLineControl : MonoBehaviour
         {
             realStay = false;
 
-            Sequence.Create()
-                .ChainDelay(stayCheckTime)
+            sequence = Sequence.Create()
+                .ChainDelay(stayCheckTime * 2)
                 .ChainCallback(target:this, target =>
                 {
                     if(realStay) return;
@@ -63,5 +67,10 @@ public class CarShowOutLineControl : MonoBehaviour
                     target._tween = Tween.Custom(1, 0, target.duration, onValueChange: x => {target._material.SetFloat("_OutlineAlpha", x);});
                 });
         }
+    }
+
+    private void OnDestroy()
+    {
+        if(sequence.isAlive) sequence.Stop();
     }
 }

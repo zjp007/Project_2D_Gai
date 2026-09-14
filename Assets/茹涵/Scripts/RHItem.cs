@@ -30,7 +30,7 @@ public class RHItem : MonoBehaviour
 
         }
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             // 鼠标按下时检测点击的物体
             RaycastHit2D hit = Physics2D.Raycast(
@@ -57,13 +57,13 @@ public class RHItem : MonoBehaviour
         {
             isDragging = false;
             selectedObject = null;
-        }
+        }*/
     }
 
-    private Vector3 GetMouseWorldPos()
+    /*private Vector3 GetMouseWorldPos()
     {
         Vector3 mousePoint = Input.mousePosition;
         mousePoint.z = zCoord;
         return Camera.main.ScreenToWorldPoint(mousePoint);
-    }
+    }*/
 }
