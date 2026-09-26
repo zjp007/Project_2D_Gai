@@ -8,7 +8,7 @@ public class CarShowOutLineControl : MonoBehaviour
 {
     [Header("动画过渡时长 s")]
     public float duration = 0.3f;
-    [Header("玩家停留/离开多久 触发边框变化 s")]
+    [Header("玩家离开多久 边框消失 s")]
     public float stayCheckTime = 0.5f;
     
     private bool realStay = false;

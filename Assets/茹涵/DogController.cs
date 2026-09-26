@@ -21,6 +21,14 @@ public class DogController : MonoBehaviour
     [Tooltip("射线发射点的偏移量（根据狗的中心点微调射线位置）")]
     public Vector2 rayOffset = Vector2.zero;
 
+    private bool isReStart = false;
+
+    public bool IsReStart
+    {
+        get => isReStart;
+        set => isReStart = value;
+    }
+
     private Rigidbody2D rb;
     private bool isMoving = false;
 
@@ -36,7 +44,7 @@ public class DogController : MonoBehaviour
         // 如果没有被激活移动，则不进行射线检测
         if (!isMoving) return;
 
-        CheckObstacleAndJump();
+        // CheckObstacleAndJump();
     }
 
     void FixedUpdate()
@@ -55,10 +63,11 @@ public class DogController : MonoBehaviour
     public void StartMoving()
     {
         isMoving = true;
+        isReStart = true;
     }
 
     /// <summary>
-    /// 停止移动的公开方法（按需使用）
+    /// 停止移动的公开方法
     /// </summary>
     public void StopMoving()
     {
@@ -114,6 +123,7 @@ public class DogController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (!isReStart) return;
             // 重新加载当前活动的场景
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
